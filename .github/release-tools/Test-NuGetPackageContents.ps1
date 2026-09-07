@@ -257,6 +257,21 @@ foreach ($package in $packages) {
             Count = if ($readmeIsCurrent) { 1 } else { 0 }
             Status = if ($readmeIsCurrent) { 'valid' } else { 'mismatch' }
         })
+
+        $publicVersion = Get-ReleaseNormalizedNuGetVersion -PackageVersion $package.PackageVersion
+        $publicPackageUrl = "https://www.nuget.org/packages/$($package.Id)/$publicVersion"
+        $installCommand = "dotnet add package $($package.Id) --version $publicVersion"
+        foreach ($readmeEntry in @('README.md', 'README-nuget.md')) {
+            $publicReadme = Get-ZipEntryText -Path $packagePath -EntryName $readmeEntry
+            if (-not $publicReadme -or
+                -not $publicReadme.Contains($publicPackageUrl, [StringComparison]::Ordinal) -or
+                -not $publicReadme.Contains($installCommand, [StringComparison]::Ordinal)) {
+                Add-ContentError "$($package.Id) $readmeEntry must document public NuGet installation of $publicVersion."
+            }
+            if ($publicReadme -match 'not (a )?NuGet\.org|local-feed installation|after (adding|configuring) the extracted artifact directory') {
+                Add-ContentError "$($package.Id) $readmeEntry still requires artifact-only distribution."
+            }
+        }
         continue
     }
 

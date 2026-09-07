@@ -17,6 +17,7 @@
     <PropertyGroup Label="NuGet">
         <PackageId>Graphix-CS</PackageId>
         <VersionPrefix>3.4.16</VersionPrefix>
+        <PackageVersion Condition="'$(Configuration)' != 'Prerelease'">3.4.16.1</PackageVersion>
         <Title>Graphix-CS</Title>
         <Authors>Eduard Gushchin</Authors>
         <Company>Eduard Gushchin</Company>

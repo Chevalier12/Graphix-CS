@@ -18,10 +18,10 @@ For this repository, agent operational materials live inside the worktree but mu
 
 ## Default Human Language
 - Keep this global instruction file in English.
-- Write human-facing project Markdown in clear Russian by default unless the user or a project-local rule explicitly requires another language.
+- Write all human-facing project Markdown in clear English, as explicitly requested by the user.
 - Human-facing Markdown includes documentation, specifications, task files, completed-task archives, development diaries, README files, agent notes, check summaries, acceptance explanations, and prose descriptions of UI labels or workflow states.
 - Keep English for exact technical identifiers, paths, commands, code symbols, API fields, package names, official product names, protocol names, and values that must match source contracts.
-- When editing existing prose, preserve the repository's terminology and language conventions. Avoid mixed Russian-English prose labels when a normal Russian phrase works.
+- When editing existing prose, preserve the repository's technical terminology and use English consistently for prose and labels.
 
 ## Repository-First Workflow
 - Inspect the repository before changing it. Start with local instructions, `README` or documentation indexes, `TASKS.md`, and nearby source or tests relevant to the request.
@@ -214,20 +214,20 @@ dotnet build .\SDL3-CS\SDL3-CS.csproj -c Release
 
 ### Strict `TASKS.md` Format
 - For this repository, `TASKS.md` must follow the same structure as `G:\Projects\2026\portfolio-bot\TASKS.md`.
-- The file must start with `# Активные задачи`.
-- Required top-level sections, in order: introductory sentence, `## Статусы`, `## Нумерация`, `## Текущие задачи`, active task blocks, `## Шаблон новой задачи`.
+- The file must start with `# Active tasks`.
+- Required top-level sections, in order: introductory sentence, `## Statuses`, `## Numbering`, `## Current tasks`, active task blocks, `## New task template`.
 - Task statuses are encoded only in task-heading markers: `[ ]` for open, `[/]` for in progress, `[?]` for blocked. Accepted closed tasks use `[x]` only after moving to `completed-tasks/`.
-- Do not use metadata lines such as `- Статус: open`, `- Статус: in progress`, or English status values inside task blocks.
-- Active task headings must use exactly this shape: `## T-XXXX [ ] P1: Заголовок задачи`.
+- Do not use metadata lines such as `- Status: open` or `- Status: in progress` inside task blocks; use heading markers only.
+- Active task headings must use exactly this shape: `## T-XXXX [ ] P1: Task title`.
 - Priorities must be `P0`, `P1`, `P2`, or `P3`. Do not use `high`, `normal`, `low`, or other priority labels.
-- Each task block must include these metadata lines before prose sections: `- Создана: ...`, `- Приоритет: ...`, `- Зависимости: ...`, `- Ссылки:` followed by nested bullets.
-- Required task subsections, in order: `### Самодостаточное описание`, `### Критерии приёмки`, `### Подзадачи`, `### Заметки агента`.
+- Each task block must include these metadata lines before prose sections: `- Created: ...`, `- Priority: ...`, `- Dependencies: ...`, `- Links:` followed by nested bullets.
+- Required task subsections, in order: `### Brief`, `### Acceptance criteria`, `### Subtasks`, `### Agent notes`.
 - Acceptance criteria and subtasks must be Markdown checklists with `- [ ] ...`.
 - `TASKS.md` holds only active tasks. Accepted tasks must be moved to `completed-tasks/` and removed from the active list after explicit user acceptance.
 
 ## Development Diary
 - Every agent session that works in a repository must keep a development diary entry under `dev-diary/`.
-- Use the local date for the file path: `dev-diary/YYYY/MM Month/DD-MM-YYYY.md`. Localize the month directory name to the repository's default human language; Russian is the default when no local rule says otherwise.
+- Use the local date for the file path: `dev-diary/YYYY/MM Month/DD-MM-YYYY.md`. Use the English month name.
 - If the diary structure is missing, create it before or while starting work.
 - Daily diary files are append-only. If a daily file already exists, add the new entry strictly after the last existing entry. Do not reorder, repair, or rewrite older entries unless the user explicitly asks.
 - Add or update the diary when starting work, after important discoveries or file changes, after meaningful checks, after commits or deployments, after blockers or scope changes, and before the final response.
@@ -235,12 +235,12 @@ dotnet build .\SDL3-CS\SDL3-CS.csproj -c Release
 - Before the final response, inspect the tail of the daily diary file and confirm the newest entry you added is the last entry.
 
 ### Strict Development Diary Format
-- For this repository, daily diary files must follow the same structure as `G:\Projects\2026\portfolio-bot\dev-diary\2026\06 Июнь\10-06-2026.md`.
-- The daily file must start with `# Дневник разработки: DD-MM-YYYY`.
+- For this repository, daily diary files must follow the structure specified below, using English headings and labels.
+- The daily file must start with `# Development diary: DD-MM-YYYY`.
 - Each entry heading must use exactly this shape: `## HH:MM +03:00 - Agent: Codex`.
-- Each entry body must contain exactly these top-level bullets, in order: `- Задача: ...`, `- Контекст: ...`, `- Действия:`, `- Изменения: ...`, `- Решения: ...`, `- Проверки: ...`, `- Далее: ...`.
-- The `- Действия:` bullet must contain nested chronological action bullets in the form `  - HH:MM - ...`.
-- Do not use diary subsections such as `### Контекст`, `### Действия`, `### Изменения`, `### Решения`, `### Проверки`, or `### Далее`.
+- Each entry body must contain exactly these top-level bullets, in order: `- Task: ...`, `- Context: ...`, `- Actions:`, `- Changes: ...`, `- Decisions: ...`, `- Verification: ...`, `- Next: ...`.
+- The `- Actions:` bullet must contain nested chronological action bullets in the form `  - HH:MM - ...`.
+- Do not use diary subsections such as `### Context`, `### Actions`, `### Changes`, `### Decisions`, `### Verification`, or `### Next`.
 - Preserve append-only diary behavior unless the user explicitly requests a format migration or cleanup.
 
 ## Testing And Verification
