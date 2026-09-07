@@ -2,20 +2,29 @@
 
 Graphix-CS is a packaging fork of [SDL3-CS](https://github.com/edwardgushchin/SDL3-CS), based on upstream tag `v3.4.16.0`, commit `c1d1cb0da632cb51799da6989f6e48c52f2a539e`.
 
-Only the managed NuGet package identity changes to `Graphix-CS` (`3.4.16`). The binding and generator source, namespace `SDL3`, public class `SDL`, assembly `SDL3-CS.dll`, native entry points, original authorship, and license are preserved. Do not reference both managed packages in the same application.
+The managed NuGet package is `Graphix-CS 3.4.16.1`. This package revision updates distribution documentation without changing the binding or generator source, namespace `SDL3`, public class `SDL`, assembly `SDL3-CS.dll`, native entry points, original authorship, or license. Do not reference both `Graphix-CS` and `SDL3-CS` in the same application.
 
 ## Fork distribution
 
-This fork uses CI artifacts, not a NuGet.org publication. After a successful [CI run](https://github.com/Chevalier12/Graphix-CS/actions/workflows/ci.yml) on `main`, download `Graphix-CS-3.4.16` from that exact run and extract its `.nupkg` into a local NuGet feed. Artifacts are retained for 30 days; pin the run, source commit, and package SHA-256 in consumers rather than downloading the latest run implicitly.
-
-The package contains managed DLL/XML assets for .NET 7–10 and the existing callback generator. It contains no native runtime. Cerneala supplies its SDL-compatible runtime separately through `Graphix.Native 3.4.16-graphix.2` from [Graphix](https://github.com/Chevalier12/Graphix). The `SDL3-CS.<Platform>` companion packages described below are upstream packages, not renamed or published by this fork.
-
-Local package verification (PowerShell 7 and the .NET 10 SDK):
+The public package feed is [NuGet.org](https://www.nuget.org/packages/Graphix-CS/3.4.16.1). Install the managed binding and, for the Graphix desktop runtime, its separate native package:
 
 ```powershell
-dotnet pack ./SDL3-CS/SDL3-CS.csproj -c Release -p:PackageVersion=3.4.16 -o ./artifacts/graphix
-./.github/release-tools/Test-NuGetPackageContents.ps1 -PackageRevision 0 -ManagedOnly -PackageDir ./artifacts/graphix
-./.github/release-tools/Test-ManagedMainCallbacksPackage.ps1 -PackagePath ./artifacts/graphix/Graphix-CS.3.4.16.nupkg -PackageVersion 3.4.16
+dotnet add package Graphix-CS --version 3.4.16.1
+dotnet add package Graphix.Native --version 3.4.16-graphix.3
+```
+
+Normal restore uses NuGet.org; it does not require a GitHub account, an Actions artifact, or a local package feed. [CI](https://github.com/Chevalier12/Graphix-CS/actions/workflows/ci.yml) still produces short-lived build artifacts for verification. Public releases use the exact verified package from the selected `main` commit; rebuilding or replacing bytes under an already-used package version is not allowed.
+
+The package contains managed DLL/XML assets for .NET 7–10 and the existing callback generator. It contains no native runtime. Cerneala supplies its SDL-compatible runtime separately through [Graphix.Native 3.4.16-graphix.3](https://www.nuget.org/packages/Graphix.Native/3.4.16-graphix.3) from [Graphix](https://github.com/Chevalier12/Graphix). That native prerelease contains six desktop RIDs: Windows, Linux and macOS on x64 and ARM64. The `SDL3-CS.<Platform>` companion packages described below are upstream packages, not renamed or published by this fork. Do not install another SDL3 native provider alongside `Graphix.Native`.
+
+The inherited callback generator requires a Roslyn 5.9-compatible compiler, such as .NET SDK `10.0.400`. This compiler requirement does not change the application's target framework. Older Roslyn 5.6 compiler hosts reject the generator with `CS9057`.
+
+Local package verification (PowerShell 7 and .NET SDK `10.0.400`):
+
+```powershell
+dotnet pack ./SDL3-CS/SDL3-CS.csproj -c Release -p:PackageVersion=3.4.16.1 -o ./artifacts/graphix
+./.github/release-tools/Test-NuGetPackageContents.ps1 -PackageRevision 1 -ManagedOnly -PackageDir ./artifacts/graphix
+./.github/release-tools/Test-ManagedMainCallbacksPackage.ps1 -PackagePath ./artifacts/graphix/Graphix-CS.3.4.16.1.nupkg -PackageVersion 3.4.16.1
 ```
 
 The inherited release tooling remains subject to its release gates. CI artifact creation does not authorize NuGet publication or native package releases.
@@ -100,7 +109,7 @@ This source tree targets the following release lines:
 
 | Component | Package pattern | Native target | Package line |
 |-----------|-----------------|---------------|--------------|
-| SDL3 managed bindings (this fork) | `Graphix-CS` | SDL `3.4.16` | `3.4.16` |
+| SDL3 managed bindings (this fork) | `Graphix-CS` | SDL `3.4.16` | `3.4.16.1` |
 | SDL3 native runtime | `SDL3-CS.{Platform}` | SDL `3.4.16` | `3.4.16.x` |
 | SDL_image native runtime | `SDL3-CS.{Platform}.Image` | SDL_image `3.4.6` | `3.4.6.x` |
 | SDL_ttf native runtime | `SDL3-CS.{Platform}.TTF` | SDL_ttf `3.2.2` | `3.2.2.x` |
@@ -136,13 +145,13 @@ Other platforms can use the managed bindings if the application supplies compati
 
 ## 📝 Installation
 
-Install the managed bindings after adding the extracted artifact directory as a NuGet source (see Fork distribution):
+Install the managed bindings from NuGet.org:
 
 ```bash
-dotnet add package Graphix-CS --version 3.4.16
+dotnet add package Graphix-CS --version 3.4.16.1
 ```
 
-Add the native package for your target platform:
+For Graphix desktop applications, use the separate `Graphix.Native` package shown in Fork distribution. The following upstream native packages are alternatives, not additional SDL3 providers to install alongside Graphix. For example, an application choosing the upstream Windows runtime instead uses:
 
 ```bash
 dotnet add package SDL3-CS.Windows

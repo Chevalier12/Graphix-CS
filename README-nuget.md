@@ -2,17 +2,18 @@
 
 Graphix-CS is a packaging fork of [SDL3-CS](https://github.com/edwardgushchin/SDL3-CS), based on upstream `v3.4.16.0` (`c1d1cb0da632cb51799da6989f6e48c52f2a539e`). The binding and generator source, namespace `SDL3`, class `SDL`, and assembly `SDL3-CS.dll` are unchanged. Original authorship and the zlib license are preserved.
 
-This fork distributes `Graphix-CS.3.4.16.nupkg` through verified CI artifacts, not NuGet.org. See the [fork README](https://github.com/Chevalier12/Graphix-CS#fork-distribution) for local-feed installation and provenance pinning. Do not reference both `Graphix-CS` and `SDL3-CS` in one application.
+Install [Graphix-CS 3.4.16.1 from NuGet.org](https://www.nuget.org/packages/Graphix-CS/3.4.16.1). Normal restore requires no GitHub authentication, Actions artifact or local package feed. See the [fork README](https://github.com/Chevalier12/Graphix-CS#fork-distribution) for build verification and provenance. Do not reference both `Graphix-CS` and `SDL3-CS` in one application.
 
-The package contains no native runtime. Cerneala supplies `Graphix.Native 3.4.16-graphix.2` separately. The native package families and documentation below refer to the upstream SDL3-CS project; they are not renamed by this fork.
+The package contains no native runtime. Cerneala supplies [Graphix.Native 3.4.16-graphix.3](https://www.nuget.org/packages/Graphix.Native/3.4.16-graphix.3) separately for Windows, Linux and macOS on x64 and ARM64. The other native package families and platform tables below refer to the upstream SDL3-CS project; they are not renamed by this fork. Do not combine `Graphix.Native` with another provider of the same SDL3 native libraries.
 
 ## Package Versions
 
-This package uses managed version `Graphix-CS 3.4.16.0` (NuGet-normalized version `3.4.16`).
+This package uses managed package version `Graphix-CS 3.4.16.1`. The package revision updates public distribution documentation; it does not change the upstream binding/generator source or managed assembly version.
 
 | Package family | Version |
 |----------------|---------|
-| `Graphix-CS` | `3.4.16` |
+| `Graphix-CS` | `3.4.16.1` |
+| `Graphix.Native` (separate desktop runtime) | `3.4.16-graphix.3` |
 | `SDL3-CS.<Platform>` | `3.4.16.0` |
 | `SDL3-CS.<Platform>.Image` | `3.4.6.9` |
 | `SDL3-CS.<Platform>.Mixer` | `3.2.4.11` |
@@ -30,6 +31,8 @@ This package uses managed version `Graphix-CS 3.4.16.0` (NuGet-normalized versio
 
 The managed wrapper targets .NET 7, .NET 8, .NET 9, and .NET 10.
 
+The included callback generator requires a Roslyn 5.9-compatible compiler, such as .NET SDK `10.0.400`, even when the application targets an older .NET runtime. Roslyn 5.6 compiler hosts reject this generator with `CS9057`.
+
 | Platform family | Native package suffix | Supported RIDs / ABIs | Notes |
 |-----------------|-----------------------|------------------------|-------|
 | Windows | `Windows` | `win-x86`, `win-x64`, `win-arm64` | Dynamic SDL libraries for desktop Windows apps. |
@@ -41,13 +44,14 @@ The managed wrapper targets .NET 7, .NET 8, .NET 9, and .NET 10.
 
 ## Installation
 
-Install the managed wrapper after configuring the extracted artifact directory as a local NuGet source:
+Install the managed wrapper and the Graphix desktop runtime from NuGet.org:
 
 ```bash
-dotnet add package Graphix-CS --version 3.4.16
+dotnet add package Graphix-CS --version 3.4.16.1
+dotnet add package Graphix.Native --version 3.4.16-graphix.3
 ```
 
-Add the native package family that matches your target platform. For a Windows desktop app:
+Alternatively, choose the upstream native package family that matches your target platform instead of `Graphix.Native`. For a Windows desktop app using that alternative:
 
 ```bash
 dotnet add package SDL3-CS.Windows
