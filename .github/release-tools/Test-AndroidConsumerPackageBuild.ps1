@@ -535,7 +535,7 @@ foreach ($rid in $Rids) {
 $allPackages = @(Get-ReleasePackageVersions -Manifest $manifest -PackageRevision $PackageRevision)
 $packages = @(Get-AndroidConsumerPackages -Packages $allPackages)
 $requiredPackageIds = @(
-    'SDL3-CS',
+    'Graphix-CS',
     'SDL3-CS.Android',
     'SDL3-CS.Android.Image',
     'SDL3-CS.Android.Mixer',

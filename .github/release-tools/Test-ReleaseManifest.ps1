@@ -629,7 +629,7 @@ foreach ($package in $manifest.managedPackages) {
     }
 }
 
-foreach ($requiredManagedPackage in @('SDL3-CS')) {
+foreach ($requiredManagedPackage in @('Graphix-CS')) {
     if (@($manifest.managedPackages | Where-Object { $_.id -eq $requiredManagedPackage }).Count -ne 1) {
         Add-ValidationError "Manifest must declare managed package '$requiredManagedPackage' exactly once."
     }

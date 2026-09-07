@@ -25,12 +25,12 @@ try {
     try {
         $entryNames = @($archive.Entries | ForEach-Object FullName)
         if ($entryNames -notcontains 'analyzers/dotnet/cs/SDL3-CS.Generators.dll') {
-            throw 'SDL3-CS package does not contain the managed main callback generator under analyzers/dotnet/cs.'
+            throw 'Graphix-CS package does not contain the managed main callback generator under analyzers/dotnet/cs.'
         }
 
         $nuspecEntry = $archive.Entries | Where-Object { $_.FullName -like '*.nuspec' } | Select-Object -First 1
         if ($null -eq $nuspecEntry) {
-            throw 'SDL3-CS package does not contain a nuspec.'
+            throw 'Graphix-CS package does not contain a nuspec.'
         }
 
         $reader = [System.IO.StreamReader]::new($nuspecEntry.Open())
@@ -41,8 +41,13 @@ try {
             $reader.Dispose()
         }
 
+        $packageMetadata = ([xml]$nuspec).package.metadata
+        if ($packageMetadata.id -ne 'Graphix-CS') {
+            throw "Expected Graphix-CS package identity; found '$($packageMetadata.id)'."
+        }
+
         if ($nuspec -match 'Microsoft\.CodeAnalysis') {
-            throw 'SDL3-CS runtime package must not expose a Microsoft.CodeAnalysis dependency.'
+            throw 'Graphix-CS runtime package must not expose a Microsoft.CodeAnalysis dependency.'
         }
     }
     finally {
@@ -64,7 +69,7 @@ try {
     <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SDL3-CS" Version="$PackageVersion" />
+    <PackageReference Include="Graphix-CS" Version="$PackageVersion" />
   </ItemGroup>
 </Project>
 "@ | Set-Content -LiteralPath $projectPath -Encoding utf8NoBOM
@@ -97,11 +102,20 @@ internal sealed partial class Game : SDL.IMainCallbacks<Game>
   <packageSources>
     <clear />
     <add key="local" value="$([System.Security.SecurityElement]::Escape($packageDirectory))" />
+    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
   </packageSources>
+  <packageSourceMapping>
+    <packageSource key="local">
+      <package pattern="Graphix-CS" />
+    </packageSource>
+    <packageSource key="nuget.org">
+      <package pattern="Microsoft.*" />
+    </packageSource>
+  </packageSourceMapping>
 </configuration>
 "@ | Set-Content -LiteralPath $nugetConfigPath -Encoding utf8NoBOM
 
-    dotnet restore $projectPath --configfile $nugetConfigPath
+    dotnet restore $projectPath --configfile $nugetConfigPath --packages (Join-Path $temporaryRoot 'packages')
     if ($LASTEXITCODE -ne 0) {
         throw "Managed main callback consumer restore failed with exit code $LASTEXITCODE."
     }

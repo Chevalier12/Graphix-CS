@@ -179,7 +179,7 @@ foreach ($package in $packages) {
 
     if ($package.Kind -ne 'native') {
         $managedExpectedEntries = @(
-            'SDL3-CS.nuspec',
+            "$($package.Id).nuspec",
             'CODE_OF_CONDUCT.md',
             'LICENSE',
             'README-nuget.md',
@@ -222,7 +222,7 @@ foreach ($package in $packages) {
         })
 
         try {
-            [xml] $nuspec = Get-ZipEntryText -Path $packagePath -EntryName 'SDL3-CS.nuspec'
+            [xml] $nuspec = Get-ZipEntryText -Path $packagePath -EntryName "$($package.Id).nuspec"
             $actualId = [string] $nuspec.package.metadata.id
             $actualVersion = [string] $nuspec.package.metadata.version
             $expectedVersion = Get-ReleaseNormalizedNuGetVersion -PackageVersion $package.PackageVersion
@@ -245,7 +245,7 @@ foreach ($package in $packages) {
         }
 
         $readmeText = Get-ZipEntryText -Path $packagePath -EntryName 'README-nuget.md'
-        $releaseMarker = "SDL3-CS $($package.PackageVersion)"
+        $releaseMarker = "$($package.Id) $($package.PackageVersion)"
         $readmeIsCurrent = $readmeText -and $readmeText.Contains($releaseMarker, [System.StringComparison]::Ordinal)
         if (-not $readmeIsCurrent) {
             Add-ContentError "$($package.Id) package README does not identify managed release $($package.PackageVersion)."

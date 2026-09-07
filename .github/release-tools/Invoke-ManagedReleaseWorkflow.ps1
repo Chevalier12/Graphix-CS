@@ -19,8 +19,8 @@ param(
 
 $manifest = Get-ReleaseManifest -ManifestPath $ManifestPath
 $managedPackages = @(Get-ReleasePackageVersions -Manifest $manifest -PackageRevision $PackageRevision | Where-Object { $_.Kind -eq 'managed' })
-if ($managedPackages.Count -ne 1 -or $managedPackages[0].Id -ne 'SDL3-CS') {
-    throw "Managed workflow dispatch requires exactly one SDL3-CS package, got $($managedPackages.Count)."
+if ($managedPackages.Count -ne 1 -or $managedPackages[0].Id -ne 'Graphix-CS') {
+    throw "Managed workflow dispatch requires exactly one Graphix-CS package, got $($managedPackages.Count)."
 }
 $releaseNotesRelativePath = ".github/release-tools/release-notes/v$($managedPackages[0].PackageVersion).md"
 

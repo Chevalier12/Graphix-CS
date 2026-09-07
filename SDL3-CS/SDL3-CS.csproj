@@ -15,17 +15,17 @@
     </PropertyGroup>
 
     <PropertyGroup Label="NuGet">
-        <PackageId>SDL3-CS</PackageId>
+        <PackageId>Graphix-CS</PackageId>
         <VersionPrefix>3.4.16</VersionPrefix>
-        <Title>SDL3 C#</Title>
+        <Title>Graphix-CS</Title>
         <Authors>Eduard Gushchin</Authors>
         <Company>Eduard Gushchin</Company>
-        <Description>This is SDL3#, a C# wrapper for SDL 3.4.16.x</Description>
+        <Description>Graphix-CS is a packaging fork of SDL3-CS 3.4.16 with unchanged SDL3 managed bindings.</Description>
         <Copyright>Copyright (c) 2024-2026 Eduard Gushchin.</Copyright>
-        <PackageProjectUrl>https://github.com/edwardgushchin/SDL3-CS</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/edwardgushchin/SDL3-CS</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/Chevalier12/Graphix-CS</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Chevalier12/Graphix-CS</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageTags>SDL;SDL3;SDL3-CS</PackageTags>
+        <PackageTags>Graphix;Graphix-CS;SDL;SDL3;SDL3-CS</PackageTags>
         <PackageReadmeFile>README-nuget.md</PackageReadmeFile>
         <PackageIcon>logo.png</PackageIcon>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -35,7 +35,7 @@
 
     <PropertyGroup Condition="'$(Configuration)' == 'Prerelease'">
         <VersionSuffix>preview.$([System.DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss'))</VersionSuffix>
-        <Description>This is SDL3#, a C# wrapper for SDL — PREVIEW CI build (preview builds supported)</Description>
+        <Description>Graphix-CS, a packaging fork of SDL3-CS — PREVIEW CI build</Description>
         <PackageReleaseNotes>Preview CI build at $([System.DateTime]::UtcNow.ToString('yyyy-MM-dd HH:mm:ss')) UTC; Version $(VersionPrefix)-$(VersionSuffix)</PackageReleaseNotes>
     </PropertyGroup>
 
