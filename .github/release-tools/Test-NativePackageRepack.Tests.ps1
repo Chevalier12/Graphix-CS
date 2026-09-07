@@ -271,7 +271,7 @@ try {
             -SkipTargetAvailabilityCheck *> $null
     }
 
-    foreach ($invalidId in @('SDL3-CS', 'SDL3-CS.Does.Not.Exist')) {
+    foreach ($invalidId in @('Graphix-CS', 'SDL3-CS.Does.Not.Exist')) {
         Assert-ActionFails -Description "invalid package id $invalidId" -Action {
             & $validator `
                 -PackageRevision 8 `

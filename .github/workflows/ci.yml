@@ -61,12 +61,16 @@ jobs:
         shell: pwsh
         run: |
           dotnet pack .\SDL3-CS\SDL3-CS.csproj -c Release --no-restore `
-            /p:PackageVersion=0.0.0-ci `
+            /p:PackageVersion=3.4.16 `
+            /p:RepositoryCommit=${{ github.sha }} `
             /p:GeneratePackageOnBuild=false `
             --output .\artifacts\managed-main-callbacks
           .\.github\release-tools\Test-ManagedMainCallbacksPackage.ps1 `
-            -PackagePath .\artifacts\managed-main-callbacks\SDL3-CS.0.0.0-ci.nupkg `
-            -PackageVersion 0.0.0-ci
+            -PackagePath .\artifacts\managed-main-callbacks\Graphix-CS.3.4.16.nupkg `
+            -PackageVersion 3.4.16
+          .\.github\release-tools\Test-NuGetPackageContents.ps1 `
+            -PackageRevision 0 -ManagedOnly `
+            -PackageDir .\artifacts\managed-main-callbacks
 
       - name: Restore tracked native runtime for managed tests
         shell: pwsh
@@ -125,6 +129,14 @@ jobs:
           }
           ./.github/release-tools/Test-AndroidPageSizeCompatibility.ps1 -Path $androidPayloadRoots
           ./.github/release-tools/Test-ReleaseWorkflow.Tests.ps1
+
+      - name: Upload verified Graphix-CS package
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: Graphix-CS-3.4.16
+          path: artifacts/managed-main-callbacks/Graphix-CS.3.4.16.nupkg
+          if-no-files-found: error
+          retention-days: 30
 
   examples-desktop:
     name: Build desktop examples (${{ matrix.name }})

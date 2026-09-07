@@ -486,7 +486,7 @@
   ],
   "managedPackages": [
     {
-      "id": "SDL3-CS",
+      "id": "Graphix-CS",
       "project": "SDL3-CS/SDL3-CS.csproj",
       "versionComponent": "SDL"
     }

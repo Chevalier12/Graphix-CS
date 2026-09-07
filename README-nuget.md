@@ -1,14 +1,18 @@
-## About
+# Graphix-CS
 
-SDL3-CS is a C# wrapper for SDL3. The managed `SDL3-CS` package contains the C# wrapper, while native binaries are published as platform-specific package families.
+Graphix-CS is a packaging fork of [SDL3-CS](https://github.com/edwardgushchin/SDL3-CS), based on upstream `v3.4.16.0` (`c1d1cb0da632cb51799da6989f6e48c52f2a539e`). The binding and generator source, namespace `SDL3`, class `SDL`, and assembly `SDL3-CS.dll` are unchanged. Original authorship and the zlib license are preserved.
+
+This fork distributes `Graphix-CS.3.4.16.nupkg` through verified CI artifacts, not NuGet.org. See the [fork README](https://github.com/Chevalier12/Graphix-CS#fork-distribution) for local-feed installation and provenance pinning. Do not reference both `Graphix-CS` and `SDL3-CS` in one application.
+
+The package contains no native runtime. Cerneala supplies `Graphix.Native 3.4.16-graphix.2` separately. The native package families and documentation below refer to the upstream SDL3-CS project; they are not renamed by this fork.
 
 ## Package Versions
 
-This package set uses managed version `SDL3-CS 3.4.16.0`.
+This package uses managed version `Graphix-CS 3.4.16.0` (NuGet-normalized version `3.4.16`).
 
 | Package family | Version |
 |----------------|---------|
-| `SDL3-CS` | `3.4.16.0` |
+| `Graphix-CS` | `3.4.16` |
 | `SDL3-CS.<Platform>` | `3.4.16.0` |
 | `SDL3-CS.<Platform>.Image` | `3.4.6.9` |
 | `SDL3-CS.<Platform>.Mixer` | `3.2.4.11` |
@@ -37,10 +41,10 @@ The managed wrapper targets .NET 7, .NET 8, .NET 9, and .NET 10.
 
 ## Installation
 
-Install the managed wrapper:
+Install the managed wrapper after configuring the extracted artifact directory as a local NuGet source:
 
 ```bash
-dotnet add package SDL3-CS
+dotnet add package Graphix-CS --version 3.4.16
 ```
 
 Add the native package family that matches your target platform. For a Windows desktop app:
@@ -95,7 +99,7 @@ internal sealed partial class Game : SDL.IMainCallbacks<Game>
 }
 ```
 
-`SDL3-CS` supplies the source generator through the package's analyzer assets. It creates the entry point and delegates to `SDL.RunMainCallbacks<TApp>`, which owns the managed/native state lifetime and contains managed exceptions until SDL returns control to the caller.
+`Graphix-CS` supplies the unchanged SDL3-CS source generator through the package's analyzer assets. It creates the entry point and delegates to `SDL.RunMainCallbacks<TApp>`, which owns the managed/native state lifetime and contains managed exceptions until SDL returns control to the caller.
 
 ## Example
 

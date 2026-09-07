@@ -7,7 +7,7 @@ param(
     [string] $ManifestPath = (Join-Path $PSScriptRoot 'release-manifest.json'),
     [string] $ReleaseNotesDir = (Join-Path $PSScriptRoot 'release-notes'),
     [string] $PackageDir,
-    [string] $Repository = 'edwardgushchin/SDL3-CS',
+    [string] $Repository = 'Chevalier12/Graphix-CS',
     [switch] $GitHubRelease,
     [switch] $NuGetPush,
     [switch] $ValidateReadinessInDryRun,
@@ -45,7 +45,7 @@ $packages = Get-ReleasePackageVersions -Manifest $manifest -PackageRevision $Pac
 if ($ManagedOnly) {
     $packages = @($packages | Where-Object { $_.Kind -eq 'managed' })
 }
-$wrapper = @($packages | Where-Object { $_.Id -eq 'SDL3-CS' })[0]
+$wrapper = @($packages | Where-Object { $_.Id -eq 'Graphix-CS' })[0]
 $tag = "v$($wrapper.PackageVersion)"
 $releaseTarget = Invoke-ReleaseGitValue -RepositoryPath (Get-ReleaseRepoRoot) -Arguments @('rev-parse', 'HEAD')
 $releaseNotesDirPath = Resolve-ReleasePath $ReleaseNotesDir
@@ -144,13 +144,13 @@ if ($GitHubRelease) {
         throw "GitHub CLI 'gh' is required for -GitHubRelease."
     }
 
-    $args = @('release', 'create', $tag, '--repo', $Repository, '--target', $releaseTarget, '--title', "SDL3-CS $($wrapper.PackageVersion)")
+    $args = @('release', 'create', $tag, '--repo', $Repository, '--target', $releaseTarget, '--title', "Graphix-CS $($wrapper.PackageVersion)")
     if (Test-Path -LiteralPath $releaseNotesPath -PathType Leaf) {
         & (Join-Path $PSScriptRoot 'Test-ReleaseNotes.ps1') -ReleaseNotesPath $releaseNotesPath
         $args += @('--notes-file', $releaseNotesPath)
     }
     else {
-        $args += @('--notes', "SDL3-CS release $($wrapper.PackageVersion)")
+        $args += @('--notes', "Graphix-CS release $($wrapper.PackageVersion)")
     }
     $args += '--draft'
     foreach ($pkg in $packagePaths) {

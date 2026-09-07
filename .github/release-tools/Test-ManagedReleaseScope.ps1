@@ -113,8 +113,8 @@ if ($nativeChanges.Count -gt 0) {
 }
 
 $targetPackages = @(Get-ReleasePackageVersions -Manifest $manifest -PackageRevision $PackageRevision | Where-Object { $_.Kind -eq 'managed' })
-if ($targetPackages.Count -ne 1 -or $targetPackages[0].Id -ne 'SDL3-CS') {
-    throw "Managed-only release requires exactly one managed SDL3-CS package, got $($targetPackages.Count)."
+if ($targetPackages.Count -ne 1 -or $targetPackages[0].Id -ne 'Graphix-CS') {
+    throw "Managed-only release requires exactly one managed Graphix-CS package, got $($targetPackages.Count)."
 }
 
 $nativePackages = @(Get-ReleasePackageVersions -Manifest $manifest -PackageRevision $NativePackageRevision | Where-Object { $_.Kind -eq 'native' })

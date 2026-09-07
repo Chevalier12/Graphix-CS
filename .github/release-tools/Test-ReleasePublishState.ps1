@@ -4,7 +4,7 @@ param(
     [int] $PackageRevision = -1,
     [string] $ManifestPath = (Join-Path $PSScriptRoot 'release-manifest.json'),
     [string] $PackageDir,
-    [string] $Repository = 'edwardgushchin/SDL3-CS',
+    [string] $Repository = 'Chevalier12/Graphix-CS',
     [switch] $GitHubRelease,
     [switch] $NuGetPush,
     [switch] $SkipExternalStateCheck,
@@ -157,9 +157,9 @@ $packages = Get-ReleasePackageVersions -Manifest $manifest -PackageRevision $Pac
 if ($ManagedOnly) {
     $packages = @($packages | Where-Object { $_.Kind -eq 'managed' })
 }
-$wrapper = @($packages | Where-Object { $_.Id -eq 'SDL3-CS' })[0]
+$wrapper = @($packages | Where-Object { $_.Id -eq 'Graphix-CS' })[0]
 if (-not $wrapper) {
-    throw "Managed wrapper package SDL3-CS was not found in release manifest."
+    throw "Managed wrapper package Graphix-CS was not found in release manifest."
 }
 
 $tag = "v$($wrapper.PackageVersion)"
